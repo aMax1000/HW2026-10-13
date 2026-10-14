@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Использование событий</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .task-list {
+            width: 500px;
+        }
+
+        .task {
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(93, 4, 4);
+            padding: 3px 8px;
+            margin: 2px 10px;
+        }
+
+        .task p {
+            margin-left: 4px;
+        }
+
+        .task[data-status="completed"] {
+            background-color: green;
+            color: white;
+        }
+
+        .task[data-status="completed"] p {
+            text-decoration: line-through;
+        }
+
+        .input-panel {
+            width: 500px;
+            margin: 8px;
+            padding: 2px;
+        }
+
+        .input-panel button {
+            padding: 4px;
+            width: 25%;
+        }
+
+        .input-panel input {
+            height: 23px;
+            padding-left: 4px;
+            width: 68%;
+        }
+        @keyframes spin2 { 100% { transform:rotate(360deg); } }
+        @keyframes spin1 { 100% { transform:rotate(360deg); } }
+        @keyframes red1 { 0% {background-color:red} 
+                        100% {background-color:white}}
+        @keyframes red2 { 0% {background-color:red ! important} 
+                        100% {background-color:white ! important}}
+        @keyframes idle {}
+    </style>
+</head>
+
+<body>
+    <div class="input-panel">
+        <input type="text" id="task-name-input">
+        <button id="add-task-btn">Добавить задачу</button>
+    </div>
+
+    <div class="task-list">
+    </div>
+
+    <script>
+        let taskNameInput = document.querySelector("#task-name-input");
+        let addTaskButton = document.querySelector("#add-task-btn");
+        let taskList = document.querySelector(".task-list");
+
+        taskList.append(createTask("Сделать домашнее задание к уроку #1"))
+        taskList.append(createTask("Пройти тестирование к уроку #1"))
+        taskList.append(createTask("Сдать экзамен по кусу JavaScript Стартовый"))
+        taskList.append(createTask("Подготовиться к собеседованию"))
+
+
+
+        addTaskButton.addEventListener("click", addTaskHandler);
+        function createTask(text) {
+            let div = document.createElement("div");
+            div.classList.add("task");
+
+            let input = document.createElement("input");
+            input.type = "checkbox";
+
+            let p = document.createElement("p");
+            p.innerText=text    
+
+            let button = document.createElement("button");
+            button.onclick = deleteme;
+            button.innerText="remove"
+            button.style.marginRight=0;
+            button.style.marginLeft="auto"; 
+            div.append(input);
+            div.append(p);
+            div.append(button);
+
+            return div;
+        }
+
+        function addTaskHandler() {
+
+            if (taskNameInput.value != '') {
+                console.log(taskNameInput.value);
+                let newTask = createTask(taskNameInput.value);
+                
+                taskList.append(newTask);
+            }
+            else {
+                alert("Введите текст");
+            }
+        }
+            function deleteme(){
+                if(this.parentElement.querySelector("input").checked===true){
+                this.parentElement.remove();
+                }else{
+                    if(this.boolsw===true){
+                        this.style.animation='spin1 0.5s linear';
+                        this.boolsw=false;
+                    }else{
+                        this.style.animation='spin2 0.5s linear';
+                        this.boolsw=true;
+                    }
+                    console.log(this.boolsw)
+                }
+            }
+    </script>
+</body>
+
+</html>
